@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/axios.min.js"></script>
+    <script>
+
+function login(){
+            var login_name = document.getElementById('login_name').value;
+            var pwd = document.getElementById('pwd').value;
+          
+            if(login_name.trim() === '' ){
+                alert('用户名为空');
+                return;
+            }
+            if(pwd.trim() === ''){
+                alert('密码为空');
+                return;
+            }
+
+          
+            axios.post('/login',{
+                login_name:login_name,
+                pwd:pwd
+            }).then(function(result){
+                console.log(result.data);
+
+                if(result.data.status === 10000){
+                    location.href = './products.html';
+                }else{
+                    location.href = './register.html';
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <p>用户名：<input id='login_name' type='text'></p>
+        <p>密码：<input id='pwd' type='password'></p>
+        <button onclick="login()">登录</button>
+       </div>
+       
+</body>
+</html>

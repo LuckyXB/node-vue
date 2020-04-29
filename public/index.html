@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../public/lib/axios.min.js"></script>
+    <script>
+        function getFriends(){
+           var http = new XMLHttpRequest();
+           http.onreadystatechange = function(){
+                if(http.readyState === 4){
+                    if(http.status === 200){
+                       var friends =  JSON.parse(http.responseText);
+                       var ul  = document.getElementById('my_friends');
+                       ul.innerHTML = '';
+                       for(var i=0;i<friends.length;i++){
+                           
+                            var li = document.createElement('li');
+                            li.innerText =  friends[i].name;
+                            ul.appendChild(li);
+                       }
+                    }
+                }
+           }
+
+           http.open('GET','/get_myfriends');
+           http.send();
+        }
+    </script>
+</head>
+<body>
+    <button onclick="getFriends()">获取我的朋友列表</button>
+    <ul id = "my_friends"></ul>
+    <div style="border: solid 1px red;">
+        <p>用户名：<input  id="username" type="text"></p>
+        <p>密码：<input id="password" type="password"></p>
+        <p><button onclick="registorUser()">提交</button></p>
+    </div>
+</body>
+<script>
+
+    function registorUser(){
+
+        var  username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        
+        axios.post('/register_user',{username: username,password: password}).then(function(result){
+                console.log(result.data);
+                if(result.data.status === 1000){
+                    alert(result.data.msg);
+                }else{
+                    alert(result.data.msg);
+                }
+        });
+    }
+</script>
+</html>

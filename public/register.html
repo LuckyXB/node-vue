@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/axios.min.js"></script>
+
+    <script>
+        function register(){
+            var login_name = document.getElementById('login_name').value;
+            var pwd = document.getElementById('pwd').value;
+            var confirm_pwd = document.getElementById('confirm_pwd').value;
+
+            if(login_name.trim() === '' ){
+                alert('用户名为空');
+                return;
+            }
+            if(pwd.trim() === ''){
+                alert('密码为空');
+                return;
+            }
+
+            if(confirm_pwd !== pwd){
+                alert('两次密码不一致');
+                return;
+            }
+            axios.post('/register',{
+                login_name:login_name,
+                pwd:pwd
+            }).then(function(result){
+                console.log(result.data);
+                if(result.data.status === 10000){
+                    location.href = './login.html';
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+   <div>
+    <p>用户名：<input id='login_name' type='text'></p>
+    <p>密码：<input id='pwd' type='password'></p>
+    <p>确认密码：<input id='confirm_pwd' type="password"></p>
+    <button onclick="register()">注册</button>
+   </div>
+   
+</body>
+
+</html>
