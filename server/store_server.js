@@ -8,7 +8,7 @@ const {getStoreDB} = require('../mongodb/mongodb');
 
 const app = express();
 
-
+const CONST = require('./constants');
 
 app.use(express.static(path.join(__dirname,'..','public')));
 app.use(bodyParser.json());
@@ -19,14 +19,14 @@ app.post('/register',function(req,res){
         storeDB.collection('users').insertOne(req.body,function(err,result){
             if(err){
                res.send({
-                   status:10001,
+                   status:CONST.FAIL,
                    msg:err
                });
                return;
             }
     
             res.send({
-                status:10000,
+                status:CONST.SUCCESS,
                 msg:'success',
                 data:{
                     user_id:result.insertedId
@@ -48,14 +48,14 @@ app.post('/login',function(req,res){
 
             if(err){
                 res.send({
-                    status:10002,
+                    status:CONST.FAIL,
                     msg:'登录失败'
                 })
                 return;
             }
             if(result.length !== 0){
                 res.send({
-                    status:10000,
+                    status:CONST.SUCCESS,
                     msg:'ok'
                 })
             }else{
